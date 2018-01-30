@@ -28,6 +28,8 @@ $(document).ready(function () {
 
     $("#task_form").submit(function(e){
         e.preventDefault();
+        $("#add_task_modal").addClass('loading');
+        
         var form_data = new FormData(this); 
         
         console.log(form_data);
@@ -44,6 +46,7 @@ $(document).ready(function () {
             success:function(data)
             {
                 $('#alert_message').html('<div class="alert alert-success">'+data+'</div>');
+                $("#add_task_modal").removeClass('loading');
                 $('#add_task_modal').modal('hide');
                 $("#task_form")[0].reset();
                 $('#task_table').DataTable().destroy();
