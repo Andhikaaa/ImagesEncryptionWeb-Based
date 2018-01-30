@@ -15,4 +15,4 @@ Images Encryption using Grain Cipher
 ```
 nohup php resque.php >> /path/to/your/logfile.log 2>&1 &
 ```
-- [Demo Visit This Link](http://35.197.134.12/images-grain/index.php)
+- [Demo Visit This Link](http://35.197.134.12/images-grain/)

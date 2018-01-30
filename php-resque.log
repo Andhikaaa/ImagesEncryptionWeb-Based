@@ -1,0 +1,10 @@
+nohup: ignoring input
+
+
+
+#!/usr/bin/env php
+[notice] Starting worker arch:11582:*
+[notice] Starting work on (Job{default} | ID: ea42f710ac9212b575d8994835f7a84f | Job | [{"name":"kodim06.png","task":"Encrypt","key":"80000000000000000000","iv":"0000000000000000","dir":"assets\/images\/task\/1517321844kodim06.png","id":"59"}])
+[notice] (Job{default} | ID: ea42f710ac9212b575d8994835f7a84f | Job | [{"name":"kodim06.png","task":"Encrypt","key":"80000000000000000000","iv":"0000000000000000","dir":"assets\/images\/task\/1517321844kodim06.png","id":"59"}]) has finished
+[notice] Starting work on (Job{default} | ID: d4b16623a35540f8528fd0f4c14e29c5 | Job | [{"name":"1517323051kodim06.png","task":"Decrypt","key":"80000000000000000000","iv":"0000000000000000","dir":"assets\/images\/task\/15173231851517323051kodim06.png","id":"60"}])
+[notice] (Job{default} | ID: d4b16623a35540f8528fd0f4c14e29c5 | Job | [{"name":"1517323051kodim06.png","task":"Decrypt","key":"80000000000000000000","iv":"0000000000000000","dir":"assets\/images\/task\/15173231851517323051kodim06.png","id":"60"}]) has finished
