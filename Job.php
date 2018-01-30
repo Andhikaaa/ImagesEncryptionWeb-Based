@@ -79,7 +79,16 @@ class Job
                     $new_color = imagecolorallocate($img, $rgb[0], $rgb[1], $rgb[2]);
                     imagesetpixel($img, $i, $j, $new_color);
                 }
-                //echo "Proccesing " . $i;
+                $progress = ceil(((($i+1) * ($y)) / $total) * 100);
+                $sse = array('id' => $this->imgid, 'progress' => $progress);
+
+                // Update status images on sqlite
+                $qry = $this->db->prepare('UPDATE Job SET status = ? WHERE id = ?');
+                $qry->execute(array((string)$progress, $this->imgid));
+
+                $fp = fopen('progress.json', 'w');
+                fwrite($fp, json_encode($sse));
+                fclose($fp);
             }
             $this->new_dir = 'assets/images/decrypted/' . time() . $this->imgname;
             imagepng($img, $this->new_dir);
