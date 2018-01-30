@@ -48,104 +48,112 @@
                     </thead>
                 </table>
             </div>
-            </div>
-        </div>
-        
-        <!-- view modal -->
-        <!-- Creates the bootstrap modal where the image will appear -->
-        <div class="modal fade" id="view_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Image Preview</h4>
-                </div>
-                <div class="modal-body">
-                    <img src="" id="imagepreview" style="width: 400px; height: 264px;" >
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+            <hr>
+            <div class="row">
+                <div class="col-xs-12">
+                    <footer>
+                        <hr>
+                        <p class="text-muted credit text-center">&copy; Copyright 2018 Uis Yudha</p>
+                    </footer>
                 </div>
             </div>
-        </div>
-        <!-- end view modal -->
-
-        <!-- delete modal -->
-        <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
+            
+            <!-- view modal -->
+            <!-- Creates the bootstrap modal where the image will appear -->
+            <div class="modal fade" id="view_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Image Preview</h4>
                     </div>
                     <div class="modal-body">
-                        <p>You are about to delete one task, this procedure is irreversible.</p>
-                        <p>Do you want to proceed?</p>
+                        <img src="" id="imagepreview" class="img-responsvie" style="width:100%">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button class="btn btn-danger btn-ok">Delete</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- end delete modal -->
-
-        <!-- add modal -->
-	    <div class="modal fade" tabindex="-1" role="dialog" id="add_task_modal">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title"><span class="glyphicon glyphicon-plus-sign"></span> Add Task</h4>
-                    </div>
+            <!-- end view modal -->
     
-                    <form class="form-horizontal" action="index.php" method="POST" id="task_form" enctype="multipart/form-data">
-                        <div class="modal-body">
-                            <div class="messages"></div> <!--notifikasi pesan -->
-                            <div class="form-group">
-                                <div class="col-sm-2 control-label">
-                                    <label for="images">Images</label>
-                                </div>
-                                <div class="col-sm-10">
-                                    <input type="file"  id="images" name="images[]" accept="image/png" multiple/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-2 control-label">
-                                    <label for="key">Key</label>
-                                </div>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="key" name="key" placeholder="0000000000000000 (80bit in hex)">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-2 control-label">
-                                    <label for="iv">IV</label>
-                                </div>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="iv" name="iv" placeholder="0000000000000000 (64bit in hex)">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-2 control-label">
-                                    <label for="task">Task</label>
-                                </div>
-                                <div class="col-sm-10">
-                                    <label class="radio-inline"><input type="radio" id="task_encrypt" name="task" value="Encrypt">Encrypt</label>
-                                    <label class="radio-inline"><input type="radio" id="task_decrypt" name="task" value="Decrypt">Decrypt</label>
-                                </div>
-                            </div>							
+            <!-- delete modal -->
+            <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
                         </div>
-                    </form>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="add_task">Submit</button>
+                        <div class="modal-body">
+                            <p>You are about to delete one task, this procedure is irreversible.</p>
+                            <p>Do you want to proceed?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-danger btn-ok">Delete</button>
+                        </div>
                     </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-        <!-- /add modal -->
+                </div>
+            </div>
+            <!-- end delete modal -->
+    
+            <!-- add modal -->
+            <div class="modal fade" tabindex="-1" role="dialog" id="add_task_modal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title"><span class="glyphicon glyphicon-plus-sign"></span> Add Task</h4>
+                        </div>
+        
+                        <form class="form-horizontal" action="index.php" method="POST" id="task_form" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <div class="messages"></div> <!--notifikasi pesan -->
+                                <div class="form-group">
+                                    <div class="col-sm-2 control-label">
+                                        <label for="images">Images</label>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <input type="file"  id="images" name="images[]" accept="image/png" multiple/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-2 control-label">
+                                        <label for="key">Key</label>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="key" name="key" placeholder="0000000000000000 (80bit in hex)">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-2 control-label">
+                                        <label for="iv">IV</label>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="iv" name="iv" placeholder="0000000000000000 (64bit in hex)">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-2 control-label">
+                                        <label for="task">Task</label>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <label class="radio-inline"><input type="radio" id="task_encrypt" name="task" value="Encrypt">Encrypt</label>
+                                        <label class="radio-inline"><input type="radio" id="task_decrypt" name="task" value="Decrypt">Decrypt</label>
+                                    </div>
+                                </div>							
+                            </div>
+                        </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="add_task">Submit</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <!-- /add modal -->
+        </div>
     </body>
 </html>
