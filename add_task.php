@@ -14,7 +14,7 @@ if(isset($_FILES['images'])){
 			$task = $_POST['task'];
 			$key = $_POST['key'];
 			$iv = $_POST['iv'];
-			$status = 'Waiting';
+			$status = '0';
 
 			$uploaddir = 'assets/images/task/';
 			$dir = $uploaddir . time() . $filename;

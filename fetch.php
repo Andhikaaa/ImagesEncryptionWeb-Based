@@ -48,13 +48,20 @@ else {
 $data = array();
 while( $row = $query->fetch() ) {  // preparing an array
 	$nestedData=array(); 
-	//$nestedData[] = $row["id"];
-	$nestedData[] = $row["name"];
-    $nestedData[] = $row["task"];
-    $nestedData[] = $row["key"];
-    $nestedData[] = $row["iv"];
-    $nestedData[] = $row["status"];
-    $nestedData[] = 
+	$nestedData['DT_RowId'] = $row["id"];
+	$nestedData['name'] = $row["name"];
+    $nestedData['task'] = $row["task"];
+    $nestedData['key'] = $row["key"];
+    $nestedData['iv'] = $row["iv"];
+    $nestedData['status'] = 
+        '<div class="progress">
+            <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="'.$row["status"].'"
+                aria-valuemin="0" aria-valuemax="100" style="width:'.$row["status"].'%">
+                '.$row["status"]. '% Complete
+            </div>
+        </div>
+        ';
+    $nestedData['action'] = 
         '<button class="btn btn-primary view" id="'.$row['dir'].'">   
             <span class="glyphicon glyphicon-zoom-in"></span>
         </button>

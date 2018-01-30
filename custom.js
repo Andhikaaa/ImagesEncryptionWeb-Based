@@ -15,8 +15,16 @@ $(document).ready(function () {
                     $(".task_table-error").html("");
                     $("#task_table").append('<tbody class="employee-grid-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
                     $("#task_table_processing").css("display","none");
-                }
-            }
+                },  
+            },
+            "columns": [
+                { "data": "name" },
+                { "data": "task" },
+                { "data": "key" },
+                { "data": "iv" },
+                { "data": "status" },
+                { "data": "action" }
+            ]
         });
     }
 
@@ -158,4 +166,51 @@ $(document).ready(function () {
             $('#alert_message').html('');
         }, 5000);
     });
+
+    var updateTable = true;
+    //Track Progress using SSE
+    if(typeof(EventSource) !== "undefined") {
+        var source = new EventSource("Job.php");
+        source.onmessage = function(event) {
+            var data = JSON.parse(event.data);
+            if(data.id != null){
+                if(data.progress == '100'){
+                    var table= $('#task_table').DataTable();
+                    var row = table.row( '#' + data.id);
+        
+                    var status = 
+                    '<div class="progress"> \
+                        <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" \
+                            aria-valuenow="' + data.progress +'"aria-valuemin="0" aria-valuemax="100" style="width:' + data.progress + '%"> \
+                            ' + data.progress + '% Complete \
+                        </div> \
+                    </div>';
+                    //table.cell(row, 4).data(status).draw();
+                    //myDataTable.cell(row, 2).data("New Text").draw();
+                    $('#task_table').dataTable().fnUpdate(status , $('tr#' + data.id), 4, updateTable );
+                    updateTable = false;
+                }
+                else{
+                    var table= $('#task_table').DataTable();
+                    var row = table.row( '#' + data.id);
+        
+                    var status = 
+                    '<div class="progress"> \
+                        <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" \
+                            aria-valuenow="' + data.progress +'"aria-valuemin="0" aria-valuemax="100" style="width:' + data.progress + '%"> \
+                            ' + data.progress + '% Complete \
+                        </div> \
+                    </div>';
+                    //table.cell(row, 4).data(status).draw();
+                    //myDataTable.cell(row, 2).data("New Text").draw();
+                    $('#task_table').dataTable().fnUpdate(status , $('tr#' + data.id), 4 , false);
+                    updateTable = true;
+                }
+                //{"id":null,"progress":null}
+            }
+            //console.log(event.data);
+        };
+    } else {
+        //document.getElementById("result").innerHTML = "Sorry, your browser does not support server-sent events...";
+    }
 });
