@@ -47,7 +47,7 @@ class Job
                 }
                 //echo "Proccesing " . $i;
             }
-            $this->new_dir = 'assets/images/encrypted/' . $this->imgname;
+            $this->new_dir = 'assets/images/encrypted/' . time() . $this->imgname;
             imagepng($img, $this->new_dir);
             imagedestroy($img);
         }
@@ -66,7 +66,7 @@ class Job
                 }
                 //echo "Proccesing " . $i;
             }
-            $this->new_dir = 'assets/images/decrypted/' . $this->imgname;
+            $this->new_dir = 'assets/images/decrypted/' . time() . $this->imgname;
             imagepng($img, $this->new_dir);
             imagedestroy($img);
         }
