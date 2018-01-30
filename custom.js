@@ -31,11 +31,11 @@ $(document).ready(function () {
         $("#add_task_modal").addClass('loading');
         
         var form_data = new FormData(this); 
-        
+        /*
         console.log(form_data);
         for (var pair of form_data.entries()) {
             console.log(pair[0]+ ', ' + pair[1]); 
-        }
+        }*/
         
         $.ajax({
             url:"add_task.php",
