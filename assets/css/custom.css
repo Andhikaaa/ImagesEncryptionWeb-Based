@@ -12,3 +12,8 @@
     color: #EEE;
     z-index: 1000;
 }
+table.dataTable tbody td.wrap {
+    word-wrap: break-word; 
+    word-break: break-all; 
+    white-space: normal;
+}

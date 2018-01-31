@@ -17,6 +17,7 @@ $(document).ready(function () {
                     $("#task_table_processing").css("display","none");
                 },  
             },
+            columnDefs:[{targets:[0], class:"wrap"}],
             "columns": [
                 { "data": "name" },
                 { "data": "task" },
@@ -24,8 +25,19 @@ $(document).ready(function () {
                 { "data": "iv" },
                 { "data": "status" },
                 { "data": "action" }
-            ]
+            ],
+            "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ){
+                // Get current progress
+                var id = aData.DT_RowId;
+                var progress = aData.status.substring(126,145).match(/\d+/)[0];
+                
+                if(progress != '100'){
+                    track_progress(id);
+                }
+            }
         });
+
+        
     }
 
     $(document).on('click', '.view', function(){
@@ -53,17 +65,22 @@ $(document).ready(function () {
             contentType: false,
             success:function(data)
             {
-                $('#alert_message').html('<div class="alert alert-success">'+data+'</div>');
+                var data = JSON.parse(data);
+                //console.log(data);
+                $('#alert_message').html('<div class="alert alert-success">'+data.message+'</div>');
                 $("#add_task_modal").removeClass('loading');
                 $('#add_task_modal').modal('hide');
                 $("#task_form")[0].reset();
                 $('#task_table').DataTable().destroy();
-                    fetch_data();
+                fetch_data();
+                for(var i = 0; i < data.all_id.length; i++){
+                    track_progress(data.all_id[i]);
                 }
-            });
-            setInterval(function(){
-                $('#alert_message').html('');
-            }, 5000);
+            }        
+        });
+        setInterval(function(){
+            $('#alert_message').html('');
+        }, 5000);
             
     })
 
@@ -167,50 +184,54 @@ $(document).ready(function () {
         }, 5000);
     });
 
-    var updateTable = true;
-    //Track Progress using SSE
-    if(typeof(EventSource) !== "undefined") {
-        var source = new EventSource("Job.php");
-        source.onmessage = function(event) {
-            var data = JSON.parse(event.data);
-            if(data.id != null){
-                if(data.progress == '100'){
-                    var table= $('#task_table').DataTable();
-                    var row = table.row( '#' + data.id);
-        
-                    var status = 
-                    '<div class="progress"> \
-                        <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" \
-                            aria-valuenow="' + data.progress +'"aria-valuemin="0" aria-valuemax="100" style="width:' + data.progress + '%"> \
-                            ' + data.progress + '% Complete \
-                        </div> \
-                    </div>';
-                    //table.cell(row, 4).data(status).draw();
-                    //myDataTable.cell(row, 2).data("New Text").draw();
-                    $('#task_table').dataTable().fnUpdate(status , $('tr#' + data.id), 4, updateTable );
-                    updateTable = false;
+    function track_progress(id){
+        if(typeof(EventSource) !== "undefined") {
+            var source = new EventSource("Job.php?id=" + id);
+            source.onmessage = function(event) {
+                var data = JSON.parse(event.data);
+                if(data.id != null){
+                    if(data.progress == '100'){
+                        var table= $('#task_table').DataTable();
+                        var row = table.row( '#' + data.id);
+            
+                        var status = 
+                        '<div class="progress"> \
+                            <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" \
+                                aria-valuenow="' + data.progress +'"aria-valuemin="0" aria-valuemax="100" style="width:' + data.progress + '%"> \
+                                ' + data.progress + '% Complete \
+                            </div> \
+                        </div>';
+                        //table.cell(row, 4).data(status).draw();
+                        //myDataTable.cell(row, 2).data("New Text").draw();
+                        $('#task_table').dataTable().fnUpdate(status , $('tr#' + data.id), 4, true );
+                        
+                        source.close();
+                    }
+                    else{
+                        var table= $('#task_table').DataTable();
+                        var row = table.row( '#' + data.id);
+                        var tr = $('tr ' + data.id);
+            
+                        var status = 
+                        '<div class="progress"> \
+                            <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" \
+                                aria-valuenow="' + data.progress +'"aria-valuemin="0" aria-valuemax="100" style="width:' + data.progress + '%"> \
+                                ' + data.progress + '% Complete \
+                            </div> \
+                        </div>';
+                        //table.cell(row, 4).data(status).draw();
+                        //myDataTable.cell(row, 2).data("New Text").draw();
+                        $('#task_table').dataTable().fnUpdate(status , $('tr#' + data.id), 4 , false);
+                        //updateTable = true;
+                    }
+                    //{"id":null,"progress":null}
                 }
-                else{
-                    var table= $('#task_table').DataTable();
-                    var row = table.row( '#' + data.id);
-        
-                    var status = 
-                    '<div class="progress"> \
-                        <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" \
-                            aria-valuenow="' + data.progress +'"aria-valuemin="0" aria-valuemax="100" style="width:' + data.progress + '%"> \
-                            ' + data.progress + '% Complete \
-                        </div> \
-                    </div>';
-                    //table.cell(row, 4).data(status).draw();
-                    //myDataTable.cell(row, 2).data("New Text").draw();
-                    $('#task_table').dataTable().fnUpdate(status , $('tr#' + data.id), 4 , false);
-                    updateTable = true;
-                }
-                //{"id":null,"progress":null}
-            }
-            //console.log(event.data);
-        };
-    } else {
-        //document.getElementById("result").innerHTML = "Sorry, your browser does not support server-sent events...";
+                //console.log(event.data);
+            };
+        } else {
+            //document.getElementById("result").innerHTML = "Sorry, your browser does not support server-sent events...";
+        }
     }
+    //var updateTable = true;
+    //Track Progress using SSE
 });

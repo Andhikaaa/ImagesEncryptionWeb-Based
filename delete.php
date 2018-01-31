@@ -6,11 +6,12 @@ if(isset($_POST['id'])){
 	$result = $db->prepare('SELECT dir FROM Job WHERE id = ?');
 	$result->execute(array($_POST['id']));
 	$dir = $result->fetchAll();
-	unlink($dir[0]['dir']);
 	
 	// Delete from sqlite
 	$qry = $db->prepare('DELETE FROM Job WHERE id = ?');
-    $qry->execute(array($_POST['id']));
+	$qry->execute(array($_POST['id']));
+
+	//unlink($dir[0]['dir']);
     
     echo "Data Deleted";
 }

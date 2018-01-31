@@ -107,13 +107,21 @@ class Job
     }
 }
 
-$json = file_get_contents('./progress.json');
-$json_data = json_decode($json, true);
-$sse = array('id' => $json_data['id'], 'progress' => $json_data['progress']);
-
-echo "data: ". json_encode($sse). "\n\n";
-flush();
-
+if(isset($_GET['id'])){
+    $request = $_GET['id'];
+    $json = file_get_contents('./progress.json');
+    $json_data = json_decode($json, true);
+    if($json_data['id'] == $request){
+        $sse = array('id' => $json_data['id'], 'progress' => $json_data['progress']);
+        echo "data: ". json_encode($sse). "\n\n";
+        flush();
+    }
+    else{
+        $sse = array('id' => null, 'progress' => null);
+        echo "data: ". json_encode($sse). "\n\n";
+        flush();
+    }
+}
 ?>
 
 

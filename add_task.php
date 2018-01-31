@@ -5,6 +5,7 @@ $db = new PDO('sqlite:job.db');
 if(isset($_FILES['images'])){
 	// Count uploaded files
 	$len_files = count($_FILES['images']['tmp_name']);
+	$all_id = array();
 
 	// Iterate through the array of files
 	for($i=0; $i < $len_files; $i++){
@@ -24,7 +25,8 @@ if(isset($_FILES['images'])){
 			// Add to SQlite
 			$qry = $db->prepare('INSERT INTO Job (name, task, key, iv, status, dir) VALUES (?, ?, ?, ?, ?, ?)');
 			$qry->execute(array($filename, $task, $key, $iv, $status, $dir));
-			
+			$id = $db->lastInsertID();
+			$all_id[] = $id;
 			// Add to queue job
 			$id = Resque::enqueue('default', 'Job', [
 				'name' => $filename,
@@ -32,12 +34,12 @@ if(isset($_FILES['images'])){
 				'key' => $key,
 				'iv' => $iv,
 				'dir' => $dir,
-				'id' => $db->lastInsertID()
+				'id' => $id,
 			], true);
-		
             //echo 'Queued job ' . $id;
-            echo 'Task Added';
 		}
 	}
+	$data = array('all_id' => $all_id, 'message' => $len_files . ' Task Added');
+	echo json_encode($data);
 }
 ?>
