@@ -106,28 +106,45 @@ $(document).ready(function () {
             $("#key").closest('.form-group').addClass('has-error');
             $("#key").after('<p class="text-danger">Please input key</p>');
         }
-        else if(key.length < 10){
+        else if(key.length < 20 || key.length > 20){
             $("#key").closest('.form-group').addClass('has-error');
             $("#key").after('<p class="text-danger">Key length is 80 bit in hex</p>');
         }
         else {
-            $("#key").closest('.form-group').removeClass('has-error');
-            $("#key").closest('.form-group').addClass('has-success');
-            key = true;
+            var re = /[0-9A-Fa-f]{20}/g;
+            
+            if(re.test(key)) {
+                $("#key").closest('.form-group').removeClass('has-error');
+                $("#key").closest('.form-group').addClass('has-success');
+                key = true;
+            } else {
+                $("#key").closest('.form-group').addClass('has-error');
+                $("#key").after('<p class="text-danger">Invalid Hex</p>');
+            }
+            re.lastIndex = 0;
         }
     
         if(iv == "") {
             $("#iv").closest('.form-group').addClass('has-error');
             $("#iv").after('<p class="text-danger">Please input IV</p>');
         }
-        else if(key.length < 8){
-            $("#key").closest('.form-group').addClass('has-error');
-            $("#key").after('<p class="text-danger">IV length is 64 bit in hex</p>');
+        else if(iv.length < 16 || iv.length > 16){
+            $("#iv").closest('.form-group').addClass('has-error');
+            $("#iv").after('<p class="text-danger">IV length is 64 bit in hex</p>');
         }
         else {
-            $("#iv").closest('.form-group').removeClass('has-error');
-            $("#iv").closest('.form-group').addClass('has-success');
-            iv = true;
+            
+            var re = /[0-9A-Fa-f]{16}/g;
+            
+            if(re.test(iv)) {
+                $("#iv").closest('.form-group').removeClass('has-error');
+                $("#iv").closest('.form-group').addClass('has-success');
+                iv = true;
+            } else {
+                $("#iv").closest('.form-group').addClass('has-error');
+                $("#iv").after('<p class="text-danger">Invalid Hex</p>');
+            }
+            re.lastIndex = 0;
         }
     
         if(task == undefined) {
